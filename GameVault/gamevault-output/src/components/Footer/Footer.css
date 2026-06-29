@@ -1,0 +1,6 @@
+.footer-link {
+  transition: color 0.15s, transform 0.15s;
+}
+.footer-link:hover {
+  color: var(--text) !important;
+}

@@ -1,0 +1,214 @@
+/* ─── Hero Base ──────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  background: #04060D;
+}
+
+/* ─── Background layers ──────────────────────── */
+.hero__bg-base {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(139,92,246,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(0,212,255,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(0,212,255,0.06) 0%, transparent 50%);
+}
+
+.hero__aurora {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(0,212,255,0.07) 60deg, rgba(139,92,246,0.10) 120deg, transparent 180deg, rgba(0,212,255,0.05) 240deg, transparent 360deg);
+  animation: aurora-rotate 25s linear infinite;
+  filter: blur(40px);
+}
+
+@keyframes aurora-rotate {
+  from { transform: rotate(0deg) scale(1.5); }
+  to { transform: rotate(360deg) scale(1.5); }
+}
+
+.hero__nebula {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 600px at 20% 40%, rgba(139,92,246,0.13) 0%, transparent 70%),
+    radial-gradient(circle 500px at 80% 60%, rgba(0,212,255,0.10) 0%, transparent 70%),
+    radial-gradient(circle 400px at 50% 90%, rgba(16,185,129,0.06) 0%, transparent 70%);
+  animation: nebula-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-2%, 3%) scale(1.05); }
+}
+
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle 500px at var(--mx, 50%) var(--my, 35%), rgba(0,212,255,0.10) 0%, transparent 60%);
+  transition: background 0.08s linear;
+}
+
+/* ─── Floating orbs ──────────────────────────── */
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: orb-float ease-in-out infinite alternate;
+}
+
+.hero__orb--1 {
+  width: 500px; height: 500px;
+  top: -10%; left: -5%;
+  background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+  filter: blur(60px);
+  animation-duration: 14s;
+}
+
+.hero__orb--2 {
+  width: 400px; height: 400px;
+  top: 10%; right: -5%;
+  background: radial-gradient(circle, rgba(0,212,255,0.10) 0%, transparent 70%);
+  filter: blur(50px);
+  animation-duration: 18s;
+  animation-delay: -6s;
+}
+
+.hero__orb--3 {
+  width: 300px; height: 300px;
+  bottom: 15%; left: 30%;
+  background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+  filter: blur(40px);
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+
+@keyframes orb-float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(3%, 4%) scale(1.08); }
+}
+
+/* ─── Light rays ─────────────────────────────── */
+.hero__rays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__ray {
+  position: absolute;
+  top: -20%;
+  width: 1px;
+  height: 140%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,212,255,0.06) 40%, rgba(139,92,246,0.04) 70%, transparent 100%);
+  transform-origin: top center;
+  animation: ray-sway ease-in-out infinite alternate;
+}
+
+.hero__ray:nth-child(1) { left: 15%; transform: rotate(-15deg); animation-duration: 12s; }
+.hero__ray:nth-child(2) { left: 35%; width: 2px; background: linear-gradient(to bottom, transparent 0%, rgba(139,92,246,0.08) 50%, transparent 100%); animation-duration: 16s; animation-delay: -5s; }
+.hero__ray:nth-child(3) { left: 60%; animation-duration: 14s; animation-delay: -8s; }
+.hero__ray:nth-child(4) { left: 80%; transform: rotate(12deg); animation-duration: 18s; animation-delay: -3s; }
+
+@keyframes ray-sway {
+  0% { transform: rotate(var(--r, -8deg)) translateX(0); opacity: 0.6; }
+  100% { transform: rotate(calc(var(--r, -8deg) + 6deg)) translateX(8px); opacity: 1; }
+}
+
+/* ─── Floating game artwork ──────────────────── */
+.hero__artwork {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 420px;
+  pointer-events: none;
+  animation: artwork-float 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 60px rgba(139,92,246,0.3)) drop-shadow(0 0 120px rgba(0,212,255,0.15));
+}
+
+@keyframes artwork-float {
+  0%, 100% { transform: translateY(-50%) translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-50%) translateY(-20px) rotate(1deg); }
+}
+
+@media (max-width: 1100px) {
+  .hero__artwork { width: 300px; opacity: 0.5; right: 2%; }
+}
+@media (max-width: 768px) {
+  .hero__artwork { display: none; }
+}
+
+/* ─── Content ────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: 3;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+  text-align: center;
+}
+
+/* ─── Grid lines decoration ──────────────────── */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(26,38,64,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,38,64,0.15) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 80%);
+}
+
+/* ─── Particles ──────────────────────────────── */
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--cyan, #00D4FF);
+  opacity: 0;
+  animation: particle-rise linear infinite;
+}
+
+@keyframes particle-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-700px) translateX(30px); opacity: 0; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__aurora, .hero__nebula, .hero__orb, .hero__particle,
+  .hero__ray, .hero__artwork { animation: none !important; }
+}

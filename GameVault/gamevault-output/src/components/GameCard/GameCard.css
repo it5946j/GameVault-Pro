@@ -1,0 +1,11 @@
+.game-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 14px;
+}
