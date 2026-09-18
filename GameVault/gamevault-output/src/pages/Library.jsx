@@ -9,15 +9,7 @@ import { fetchGames } from "../api/rawg";
 import GameCard from "../components/GameCard/GameCard";
 import GameModal from "../components/GameModal/GameModal";
 import { GameGridSkeleton } from "../components/Loading/Loading";
-
-// Maps our UI sort labels onto RAWG's `ordering` query param.
-const SORT_TO_ORDERING = {
-  hot: "-added",
-  new: "-released",
-  rating: "-rating",
-  players: "-added",
-  az: "name",
-};
+import { SORT_TO_ORDERING, SORT_OPTIONS } from "../data/sortOptions";
 
 export default function Library() {
   const { search, setSearch, genre, setGenre, tierFilter, setTierFilter, sort, setSort } = useGameFilters();
@@ -87,10 +79,9 @@ export default function Library() {
           onChange={(e) => setSort(e.target.value)}
           style={{ padding: "8px 12px", borderRadius: 8, border: `1px solid ${T.border}`, background: T.surface, color: T.text, fontSize: 13, cursor: "pointer", outline: "none" }}
         >
-          <option value="hot">🔥 Trending</option>
-          <option value="new">✨ Newest First</option>
-          <option value="rating">⭐ Top Rated</option>
-          <option value="az">🔤 A-Z</option>
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
         </select>
 
         {genre !== "All" && (

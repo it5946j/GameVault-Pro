@@ -16,9 +16,13 @@ brief — it's the first real, working increment. What's built and what isn't:
 - GSAP entrance animations, Lenis inertia smooth-scroll, Framer Motion micro-interactions
 - Cinematic homepage hero (nebula background, particles, aurora, mouse glow, parallax controller glyph)
 - React Router multi-page routing (Home, Library, Game detail, Plans, Checkout, plus stub pages)
+- Steam-style store front at `/marketplace`: rotating featured banner, deterministic
+  price/discount tags on every game card, and curated shelves (Special Offers, Top
+  Sellers, New Releases, Trending, Coming Soon) on top of an endless, filterable,
+  infinite-scrolling catalog grid — all fed by the same live RAWG data as Library
 
 **Not built yet (later phases) — these pages render an honest "coming soon" placeholder, not fake data:**
-- Marketplace (buy/sell/upload/reviews)
+- Marketplace transactions (buy/sell/upload, reviews & ratings) — the store *front* (browsing, deals, catalog) is built; real checkout/upload/reviews need a real backend + DB
 - Authentication (Google/Discord/Steam/GitHub/email)
 - Dashboard, Profile, Settings (depend on auth)
 - Stripe payments (Checkout page is a non-functional placeholder)
@@ -92,7 +96,7 @@ server/
 ```
 
 ## Next steps (Phase 2 candidates)
-- Marketplace (buy/sell/upload, reviews & ratings) — needs a real backend + DB, not just RAWG
+- Marketplace transactions (buy/sell/upload, reviews & ratings) — needs a real backend + DB, not just RAWG; the browsable store front itself is done
 - Auth (Firebase or Supabase, multi-provider sign-in)
 - Stripe subscriptions wired into Checkout
 - True React Three Fiber hero scene
