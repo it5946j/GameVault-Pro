@@ -12,6 +12,7 @@ import PageLoader from "./components/PageLoader/PageLoader";
 import Home from "./pages/Home";
 import Library from "./pages/Library";
 import Marketplace from "./pages/Marketplace";
+import Arcade from "./pages/Arcade";
 import Upload from "./pages/Upload";
 import Game from "./pages/Game";
 import Dashboard from "./pages/Dashboard";
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/library" element={<Library />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/arcade" element={<Arcade />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/game/:id" element={<Game />} />
             <Route path="/dashboard" element={<Dashboard />} />

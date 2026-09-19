@@ -27,7 +27,8 @@ function FeaturedSkeleton() {
 
 function FeaturedCard({ game, onClick }) {
   const [hovered, setHovered] = useState(false);
-  const img = game.background_image;
+  const [imgFailed, setImgFailed] = useState(false);
+  const img = !imgFailed && game.background_image;
   const rating = game.rating?.toFixed(1) || "N/A";
   const genre = game.genre || "Action";
 
@@ -59,6 +60,7 @@ function FeaturedCard({ game, onClick }) {
             src={img}
             alt={game.title}
             loading="lazy"
+            onError={() => setImgFailed(true)}
             animate={{ scale: hovered ? 1.08 : 1 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             style={{
