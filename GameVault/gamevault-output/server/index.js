@@ -66,6 +66,8 @@ app.get("/api/games", (req, res) => proxyToRawg("/games", req.query, res));
 app.get("/api/games/:id", (req, res) => proxyToRawg(`/games/${req.params.id}`, req.query, res));
 app.get("/api/games/:id/screenshots", (req, res) => proxyToRawg(`/games/${req.params.id}/screenshots`, req.query, res));
 app.get("/api/games/:id/movies", (req, res) => proxyToRawg(`/games/${req.params.id}/movies`, req.query, res));
+app.get("/api/games/:id/stores", (req, res) => proxyToRawg(`/games/${req.params.id}/stores`, req.query, res));
+app.get("/api/stores", (req, res) => proxyToRawg("/stores", req.query, res));
 app.get("/api/genres", (req, res) => proxyToRawg("/genres", req.query, res));
 app.get("/api/platforms/lists/parents", (req, res) => proxyToRawg("/platforms/lists/parents", req.query, res));
 

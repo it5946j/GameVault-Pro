@@ -103,6 +103,21 @@ export async function fetchGameTrailers(id) {
   return cachedGet(`/games/${id}/movies`);
 }
 
+// Real, per-game links to where it's actually sold/playable (Steam, Epic,
+// GOG, PlayStation, Xbox, itch.io, ...). This is what makes "Play"/"Buy"
+// buttons actually go somewhere real instead of doing nothing — GameVault
+// doesn't host or stream any game itself, it links out to the real store.
+export async function fetchGameStores(id) {
+  return cachedGet(`/games/${id}/stores`);
+}
+
+// The full list of RAWG-known storefronts (id -> name/domain), needed to
+// label the per-game store links above since that endpoint only returns
+// numeric store_id + url.
+export async function fetchStores() {
+  return cachedGet("/stores");
+}
+
 export async function fetchGenres() {
   return cachedGet("/genres");
 }
@@ -121,6 +136,8 @@ export default {
   fetchGameDetail,
   fetchGameScreenshots,
   fetchGameTrailers,
+  fetchGameStores,
+  fetchStores,
   fetchGenres,
   fetchPlatforms,
 };
