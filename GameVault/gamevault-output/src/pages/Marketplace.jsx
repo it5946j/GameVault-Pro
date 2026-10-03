@@ -45,7 +45,9 @@ export default function Marketplace() {
     [sort, debouncedSearch, genreSlug]
   );
 
-  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 24);
+  // 40 is RAWG's actual max page_size; the catalog here is its full
+  // database (hundreds of thousands of games) paged in via Load More.
+  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 40);
 
   const jumpToGrid = (nextGenre) => {
     setGenre(nextGenre);
@@ -198,7 +200,7 @@ export default function Marketplace() {
         )}
 
         {loading && games.length === 0 ? (
-          <GameGridSkeleton count={24} />
+          <GameGridSkeleton count={40} />
         ) : games.length === 0 ? (
           <div style={{ textAlign: "center", padding: "80px 0", color: T.textMuted }}>
             <StoreIcon size={48} style={{ margin: "0 auto 16px", display: "block", opacity: 0.3 }} />

@@ -30,7 +30,10 @@ export default function Library() {
     [sort, debouncedSearch, genreSlug]
   );
 
-  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 24);
+  // 40 is RAWG's actual max page_size; the catalog behind this page is its
+  // full database (hundreds of thousands of games) paged in via Load More,
+  // not a fixed small set.
+  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 40);
 
   // Tier is a GameVault-only concept (see mapRawgGame.js), so it's filtered
   // client-side over whatever page of RAWG results we currently have.
@@ -121,7 +124,7 @@ export default function Library() {
       )}
 
       {loading && games.length === 0 ? (
-        <GameGridSkeleton count={24} />
+        <GameGridSkeleton count={40} />
       ) : visibleGames.length === 0 ? (
         <div style={{ textAlign: "center", padding: "80px 0", color: T.textMuted }}>
           <Gamepad2 size={48} style={{ margin: "0 auto 16px", display: "block", opacity: 0.3 }} />
