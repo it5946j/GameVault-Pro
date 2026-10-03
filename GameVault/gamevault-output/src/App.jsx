@@ -1,13 +1,8 @@
-import { useEffect, Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { GameFilterProvider } from "./contexts/GameFilterContext";
-import { initLenis, destroyLenis } from "./animations/lenis";
-import { wireGsapToLenis } from "./animations/gsap";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import CustomCursor from "./components/Cursor/CustomCursor";
-import PageLoader from "./components/PageLoader/PageLoader";
 
 import Home from "./pages/Home";
 import Library from "./pages/Library";
@@ -22,17 +17,9 @@ import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 
 export default function App() {
-  useEffect(() => {
-    initLenis();
-    wireGsapToLenis();
-    return () => destroyLenis();
-  }, []);
-
   return (
     <GameFilterProvider>
-      <PageLoader />
-      <CustomCursor />
-      <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)" }}>
+      <div style={{ minHeight: "100vh", color: "var(--text)" }}>
         <Navbar />
         <main>
           <Routes>

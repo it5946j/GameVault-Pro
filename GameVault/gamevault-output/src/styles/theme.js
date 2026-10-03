@@ -3,36 +3,44 @@
 // Mirrors CSS custom properties in global.css
 // ─────────────────────────────────────────────
 export const theme = {
-  bg: "#04060D",
-  surface: "#080D1A",
-  surface2: "#0C1525",
-  card: "#0F1A2E",
-  cardHover: "#141F36",
-  border: "#1A2640",
-  borderHover: "#243350",
+  bg: "#1b2838",
+  surface: "#171d25",
+  surface2: "#1f2c3b",
+  card: "#16202d",
+  cardHover: "#2a475e",
+  border: "#2a3f55",
+  borderHover: "#3d5a78",
 
-  cyan: "#00D4FF",
-  cyanDim: "rgba(0,212,255,0.12)",
-  cyanGlow: "rgba(0,212,255,0.25)",
-  purple: "#8B5CF6",
-  purpleDim: "rgba(139,92,246,0.12)",
-  purpleGlow: "rgba(139,92,246,0.30)",
+  // Steam blue is the primary accent (kept under the `cyan` key so existing
+  // components pick it up without renames).
+  cyan: "#66c0f4",
+  cyanDim: "rgba(102,192,244,0.12)",
+  cyanGlow: "rgba(102,192,244,0.25)",
+  purple: "#9b8cd9",
+  purpleDim: "rgba(155,140,217,0.14)",
+  purpleGlow: "rgba(155,140,217,0.30)",
   pink: "#EC4899",
-  green: "#10B981",
-  greenDim: "rgba(16,185,129,0.12)",
+  green: "#a4d007",
+  greenDim: "rgba(164,208,7,0.12)",
   orange: "#F59E0B",
-  red: "#EF4444",
+  red: "#c15755",
   gold: "#F59E0B",
 
-  text: "#EDF2F7",
-  textSec: "#8896AB",
-  textMuted: "#3D4F6B",
+  header: "#171a21",
+  link: "#1a9fff",
+  discount: "#4c6b22",
+  discountText: "#beee11",
 
-  glass: "rgba(8,13,26,0.75)",
-  glassBorder: "rgba(26,38,64,0.8)",
+  text: "#c6d4df",
+  textBright: "#ffffff",
+  textSec: "#8f98a0",
+  textMuted: "#67707b",
 
-  fontDisplay: "'Space Grotesk', -apple-system, sans-serif",
-  fontBody: "'Inter', -apple-system, sans-serif",
+  glass: "rgba(23,26,33,0.95)",
+  glassBorder: "rgba(61,90,120,0.6)",
+
+  fontDisplay: "'Motiva Sans', Arial, Helvetica, sans-serif",
+  fontBody: "'Motiva Sans', Arial, Helvetica, sans-serif",
 };
 
 export default theme;
