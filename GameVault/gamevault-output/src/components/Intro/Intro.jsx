@@ -41,6 +41,7 @@ export default function Intro() {
 
   return (
     <div className={`intro${phase === "leave" ? " leave" : ""}`} role="dialog" aria-label="GameVault intro" onClick={() => setPhase("done")}>
+      <div className="intro-aurora" aria-hidden="true"><i /><i /><i /></div>
       <div className="intro-stars" aria-hidden="true">
         {STARS.map((s, i) => (
           <i key={i} style={{ left: `${s.x}%`, top: `${s.y}%`, width: s.s, height: s.s, animationDelay: `${s.d}s` }} />

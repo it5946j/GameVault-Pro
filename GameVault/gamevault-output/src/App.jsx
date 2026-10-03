@@ -11,6 +11,8 @@ import Upload from "./pages/Upload";
 import Game from "./pages/Game";
 import GamePlay from "./pages/GamePlay";
 import Arcade from "./pages/Arcade";
+import Classics from "./pages/Classics";
+import ClassicPlay from "./pages/ClassicPlay";
 import Intro from "./components/Intro/Intro";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
@@ -31,6 +33,8 @@ export default function App() {
             <Route path="/upload" element={<Upload />} />
             <Route path="/game/:id" element={<Game />} />
             <Route path="/game/:id/play" element={<GamePlay />} />
+            <Route path="/classics" element={<Classics />} />
+            <Route path="/classics/:id" element={<ClassicPlay />} />
             <Route path="/arcade" element={<Arcade />} />
             <Route path="/arcade/:key" element={<Arcade />} />
             <Route path="/dashboard" element={<Dashboard />} />

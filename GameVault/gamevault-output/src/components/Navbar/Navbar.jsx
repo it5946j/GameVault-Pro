@@ -7,6 +7,7 @@ import { useGameFilters } from "../../contexts/GameFilterContext";
 const MENU = [
   { to: "/", label: "Store" },
   { to: "/library", label: "Library" },
+  { to: "/classics", label: "Classics" },
   { to: "/marketplace", label: "Marketplace" },
   { to: "/arcade", label: "Arcade" },
 ];
