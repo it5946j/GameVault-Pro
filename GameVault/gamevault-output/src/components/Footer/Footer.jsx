@@ -1,4 +1,4 @@
-import { Gamepad2, Twitter, Github, Youtube, Twitch, Discord } from "lucide-react";
+import { Gamepad2, Twitter, Github, Youtube, Twitch, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { theme as T } from "../../styles/theme";
 import "./Footer.css";
@@ -48,7 +48,7 @@ const FOOTER_COLUMNS = [
 
 const SOCIAL = [
   { icon: Twitter, label: "Twitter / X", href: "#" },
-  { icon: Discord, label: "Discord", href: "#" },
+  { icon: MessageCircle, label: "Discord", href: "#" },
   { icon: Twitch, label: "Twitch", href: "#" },
   { icon: Youtube, label: "YouTube", href: "#" },
   { icon: Github, label: "GitHub", href: "#" },

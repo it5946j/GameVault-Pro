@@ -49,11 +49,36 @@ function deterministicTier(id) {
   return id % 3;
 }
 
+// Steam-style storefront pricing is another GameVault-only concept RAWG has
+// no data for, so — same approach as tier — we derive a stable price/sale
+// deterministically from each game's id and quality score. This keeps price
+// tags consistent for a given game across the Home shelves, Library grid,
+// and Marketplace store front without needing a real pricing backend.
+const PRICE_LADDER = [4.99, 9.99, 14.99, 19.99, 24.99, 29.99, 34.99, 39.99, 49.99, 59.99];
+const DISCOUNT_LADDER = [10, 15, 20, 25, 33, 40, 50, 60, 67, 75];
+
+function deterministicPricing(id, metacritic, rating) {
+  if (id % 11 === 0) {
+    return { price: 0, originalPrice: 0, discount: 0, isFree: true };
+  }
+  const qualityScore = metacritic || (rating ? rating * 20 : 70);
+  const ladderIndex = Math.max(
+    0,
+    Math.min(PRICE_LADDER.length - 1, Math.floor((qualityScore / 100) * PRICE_LADDER.length * 0.7) + (id % 4))
+  );
+  const originalPrice = PRICE_LADDER[ladderIndex];
+  const onSale = id % 4 === 0;
+  const discount = onSale ? DISCOUNT_LADDER[id % DISCOUNT_LADDER.length] : 0;
+  const price = onSale ? Math.round(originalPrice * (1 - discount / 100) * 100) / 100 : originalPrice;
+  return { price, originalPrice, discount, isFree: false };
+}
+
 export function mapRawgGame(g) {
   const rating = g.rating && g.rating > 0 ? g.rating : (g.metacritic ? g.metacritic / 20 : 4.0);
   const players = g.added || g.ratings_count || 0;
   const releasedRecently =
     g.released && new Date(g.released) > new Date(Date.now() - 1000 * 60 * 60 * 24 * 60);
+  const pricing = deterministicPricing(g.id, g.metacritic, rating);
 
   return {
     id: g.id,
@@ -77,6 +102,7 @@ export function mapRawgGame(g) {
     isNew: !!releasedRecently,
     isHot: players > 8000,
     isFeatured: !!g.metacritic && g.metacritic >= 85,
+    ...pricing,
   };
 }
 

@@ -1,14 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Star, Users, Crown, Play, Lock } from "lucide-react";
+import { X, Star, Users, Crown, Play, ExternalLink } from "lucide-react";
 import { theme as T } from "../../styles/theme";
 import { GENRE_META } from "../../data/genreMeta";
 import { fmt } from "../../utils/format";
+import { useGameStores } from "../../hooks/useGameStores";
 import StarRating from "../Common/StarRating";
 import TierBadge from "../Common/TierBadge";
 
 const TIER_LABELS = ["Basic (Free)", "Pro Required", "Ultimate Required"];
 
 export default function GameModal({ game, onClose }) {
+  const { links, loading: loadingLinks } = useGameStores(game || {});
   if (!game) return null;
   const meta = GENRE_META[game.genre] || GENRE_META.Action;
 
@@ -133,33 +135,45 @@ export default function GameModal({ game, onClose }) {
               ))}
             </div>
 
-            {/* CTA */}
-            {game.tier === 0 ? (
-              <button
-                style={{
-                  width: "100%",
-                  padding: "14px 0",
-                  borderRadius: 10,
-                  border: "none",
-                  background: `linear-gradient(135deg, ${T.cyan}, #0099CC)`,
-                  color: "#000",
-                  fontWeight: 800,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                }}
-              >
-                <Play size={18} fill="#000" stroke="#000" />
-                Play Now — Free
-              </button>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* CTA — real links to where this game is actually sold/played.
+                GameVault doesn't host or stream any game, so every one of
+                these opens the real storefront in a new tab. */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {loadingLinks ? (
+                <div className="skeleton-pulse" style={{ height: 48, borderRadius: 10, background: T.card }} />
+              ) : (
+                links.map((link, i) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      width: "100%",
+                      padding: "14px 0",
+                      borderRadius: 10,
+                      border: i === 0 ? "none" : `1px solid ${T.border}`,
+                      background: i === 0 ? `linear-gradient(135deg, ${T.cyan}, #0099CC)` : T.card,
+                      color: i === 0 ? "#000" : T.text,
+                      fontWeight: 800,
+                      fontSize: 15,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 8,
+                      textDecoration: "none",
+                    }}
+                  >
+                    {i === 0 ? <Play size={18} fill={i === 0 ? "#000" : "none"} /> : <ExternalLink size={16} />}
+                    Play on {link.name}
+                  </a>
+                ))
+              )}
+              {game.tier > 0 && (
                 <div
                   style={{
-                    padding: 14,
+                    padding: 12,
                     borderRadius: 10,
                     border: `1px solid ${game.tier === 1 ? T.cyan : T.purple}44`,
                     background: game.tier === 1 ? T.cyanDim : T.purpleDim,
@@ -168,34 +182,13 @@ export default function GameModal({ game, onClose }) {
                     gap: 10,
                   }}
                 >
-                  <Lock size={16} color={game.tier === 1 ? T.cyan : T.purple} />
-                  <span style={{ fontSize: 13, color: T.textSec }}>
-                    This game requires a{" "}
-                    <strong style={{ color: game.tier === 1 ? T.cyan : T.purple }}>{game.tier === 1 ? "Pro" : "Ultimate"}</strong> subscription.
+                  <Crown size={15} color={game.tier === 1 ? T.cyan : T.purple} />
+                  <span style={{ fontSize: 12.5, color: T.textSec }}>
+                    <strong style={{ color: game.tier === 1 ? T.cyan : T.purple }}>{game.tier === 1 ? "Pro" : "Ultimate"}</strong> members get this in GameVault's curated picks & price-drop alerts.
                   </span>
                 </div>
-                <button
-                  style={{
-                    width: "100%",
-                    padding: "14px 0",
-                    borderRadius: 10,
-                    border: "none",
-                    background: game.tier === 1 ? `linear-gradient(135deg, ${T.cyan}, #0099CC)` : `linear-gradient(135deg, ${T.purple}, #5B21B6)`,
-                    color: "#fff",
-                    fontWeight: 800,
-                    fontSize: 15,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                  }}
-                >
-                  <Crown size={18} />
-                  Upgrade to {game.tier === 1 ? "Pro" : "Ultimate"}
-                </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </motion.div>
       </motion.div>

@@ -8,7 +8,8 @@ import { useGameFilters } from "../../contexts/GameFilterContext";
 const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/library", label: "Library" },
-  { to: "/marketplace", label: "Marketplace" },
+  { to: "/marketplace", label: "Store" },
+  { to: "/arcade", label: "Arcade" },
   { to: "/plans", label: "Plans" },
 ];
 

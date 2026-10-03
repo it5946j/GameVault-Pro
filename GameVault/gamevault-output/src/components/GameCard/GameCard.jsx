@@ -6,6 +6,7 @@ import { GENRE_META } from "../../data/genreMeta";
 import { fmt } from "../../utils/format";
 import GameThumb from "./GameThumb";
 import StarRating from "../Common/StarRating";
+import PriceTag from "../Common/PriceTag";
 import "./GameCard.css";
 
 const GameCard = memo(function GameCard({ game, onClick }) {
@@ -93,6 +94,14 @@ const GameCard = memo(function GameCard({ game, onClick }) {
               backdropFilter: "blur(6px)",
               color: "#000", padding: "2px 7px", borderRadius: 4,
             }}>✨ NEW</span>
+          )}
+          {game.discount > 0 && (
+            <span style={{
+              fontSize: 9, fontWeight: 800,
+              background: T.green,
+              backdropFilter: "blur(6px)",
+              color: "#000", padding: "2px 7px", borderRadius: 4,
+            }}>-{game.discount}%</span>
           )}
         </div>
 
@@ -214,6 +223,14 @@ const GameCard = memo(function GameCard({ game, onClick }) {
               {fmt(game.players)}
             </span>
           </div>
+        </div>
+
+        <div style={{
+          marginTop: 10, paddingTop: 10,
+          borderTop: `1px solid ${T.border}`,
+          display: "flex", justifyContent: "flex-end",
+        }}>
+          <PriceTag game={game} size="sm" />
         </div>
       </div>
     </motion.article>

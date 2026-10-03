@@ -5,12 +5,18 @@
 // (src/api/rawg.js) calls these routes via relative /api/* paths and never
 // sees the key. Set RAWG_API_KEY in server/.env (see .env.example).
 // ─────────────────────────────────────────────
+import path from "path";
+import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import fetch from "node-fetch";
 
-dotenv.config();
+// dotenv.config() with no path defaults to reading ".env" from
+// process.cwd(), which is the project root when run via `npm run server`
+// — not this server/ directory. Resolve it relative to this file instead
+// so `server/.env` (as the README instructs) is always the one that loads.
+dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -60,6 +66,8 @@ app.get("/api/games", (req, res) => proxyToRawg("/games", req.query, res));
 app.get("/api/games/:id", (req, res) => proxyToRawg(`/games/${req.params.id}`, req.query, res));
 app.get("/api/games/:id/screenshots", (req, res) => proxyToRawg(`/games/${req.params.id}/screenshots`, req.query, res));
 app.get("/api/games/:id/movies", (req, res) => proxyToRawg(`/games/${req.params.id}/movies`, req.query, res));
+app.get("/api/games/:id/stores", (req, res) => proxyToRawg(`/games/${req.params.id}/stores`, req.query, res));
+app.get("/api/stores", (req, res) => proxyToRawg("/stores", req.query, res));
 app.get("/api/genres", (req, res) => proxyToRawg("/genres", req.query, res));
 app.get("/api/platforms/lists/parents", (req, res) => proxyToRawg("/platforms/lists/parents", req.query, res));
 

@@ -9,15 +9,7 @@ import { fetchGames } from "../api/rawg";
 import GameCard from "../components/GameCard/GameCard";
 import GameModal from "../components/GameModal/GameModal";
 import { GameGridSkeleton } from "../components/Loading/Loading";
-
-// Maps our UI sort labels onto RAWG's `ordering` query param.
-const SORT_TO_ORDERING = {
-  hot: "-added",
-  new: "-released",
-  rating: "-rating",
-  players: "-added",
-  az: "name",
-};
+import { SORT_TO_ORDERING, SORT_OPTIONS } from "../data/sortOptions";
 
 export default function Library() {
   const { search, setSearch, genre, setGenre, tierFilter, setTierFilter, sort, setSort } = useGameFilters();
@@ -38,7 +30,10 @@ export default function Library() {
     [sort, debouncedSearch, genreSlug]
   );
 
-  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 24);
+  // 40 is RAWG's actual max page_size; the catalog behind this page is its
+  // full database (hundreds of thousands of games) paged in via Load More,
+  // not a fixed small set.
+  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 40);
 
   // Tier is a GameVault-only concept (see mapRawgGame.js), so it's filtered
   // client-side over whatever page of RAWG results we currently have.
@@ -87,10 +82,9 @@ export default function Library() {
           onChange={(e) => setSort(e.target.value)}
           style={{ padding: "8px 12px", borderRadius: 8, border: `1px solid ${T.border}`, background: T.surface, color: T.text, fontSize: 13, cursor: "pointer", outline: "none" }}
         >
-          <option value="hot">🔥 Trending</option>
-          <option value="new">✨ Newest First</option>
-          <option value="rating">⭐ Top Rated</option>
-          <option value="az">🔤 A-Z</option>
+          {SORT_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
         </select>
 
         {genre !== "All" && (
@@ -130,7 +124,7 @@ export default function Library() {
       )}
 
       {loading && games.length === 0 ? (
-        <GameGridSkeleton count={24} />
+        <GameGridSkeleton count={40} />
       ) : visibleGames.length === 0 ? (
         <div style={{ textAlign: "center", padding: "80px 0", color: T.textMuted }}>
           <Gamepad2 size={48} style={{ margin: "0 auto 16px", display: "block", opacity: 0.3 }} />
