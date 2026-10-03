@@ -7,11 +7,13 @@ import { GENRES_ALL } from "../data/genreMeta";
 import FeaturedCapsule from "../components/Store/FeaturedCapsule";
 import CapsuleGrid from "../components/Store/CapsuleGrid";
 import TabbedList from "../components/Store/TabbedList";
+import { ORIGINALS } from "../games/catalog";
+import OriginalCard from "../components/Arcade/OriginalCard";
 import { BlockSkeleton, CapSkeleton } from "../components/Common/Skeletons";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { setGenre, setSort, setTierFilter, setSearch } = useGameFilters();
+  const { setGenre, setSort, setSearch } = useGameFilters();
   const trending = useGameList(useCallback((p, s) => fetchTrending(p, s), []), [], 24);
   const top = useGameList(useCallback((p, s) => fetchPopular(p, s), []), [], 8);
 
@@ -19,10 +21,9 @@ export default function Home() {
   const featured = withArt.slice(0, 6);
   const specials = withArt.slice(6, 14);
 
-  function browse({ genre = "All", sort = "hot", tier = 0 } = {}) {
+  function browse({ genre = "All", sort = "hot" } = {}) {
     setGenre(genre);
     setSort(sort);
-    setTierFilter(tier);
     setSearch("");
     navigate("/library");
   }
@@ -32,20 +33,14 @@ export default function Home() {
       <div className="store-layout">
         <aside>
           <div className="side-promo side-box">
-            <strong>GameVault Plans</strong>
-            Play hundreds of games with one subscription. <Link to="/plans" style={{ color: "#67c1f5" }}>See plans</Link>
+            <strong>100% free</strong>
+            {trending.total > 0 ? `${trending.total.toLocaleString()} games` : "A huge catalogue"}, no subscriptions, no purchases. <Link to="/arcade" style={{ color: "#67c1f5" }}>Play now</Link>
           </div>
           <div className="side-box">
             <h3>Browse by genre</h3>
             {GENRES_ALL.filter((g) => g !== "All").map((g) => (
               <button key={g} onClick={() => browse({ genre: g })}>{g.replace("_", " ")}</button>
             ))}
-          </div>
-          <div className="side-box">
-            <h3>Browse by plan</h3>
-            <button onClick={() => browse({ tier: 1 })}>Free to Play</button>
-            <button onClick={() => browse({ tier: 2 })}>Pro</button>
-            <button onClick={() => browse({ tier: 3 })}>Ultimate</button>
           </div>
           <div className="side-box">
             <h3>Quick links</h3>
@@ -59,6 +54,11 @@ export default function Home() {
           <div className="sec-title" style={{ marginTop: 0 }}>Featured &amp; Recommended</div>
           {trending.loading && !featured.length ? <BlockSkeleton /> : <FeaturedCapsule games={featured} />}
           {trending.error && <p style={{ color: "#c15755", padding: "12px 0" }}>Couldn't load games: {trending.error}</p>}
+
+          <div className="sec-title">GameVault Originals — play free <Link to="/arcade">See all</Link></div>
+          <div className="cap-grid orig-grid">
+            {ORIGINALS.slice(0, 4).map((g) => <OriginalCard key={g.key} original={g} />)}
+          </div>
 
           <div className="sec-title">Trending Now <Link to="/library">See more</Link></div>
           {trending.loading && !specials.length ? <CapSkeleton count={4} /> : <CapsuleGrid games={specials.slice(0, 4)} />}

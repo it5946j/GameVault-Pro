@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Gamepad2, Menu, X, Download } from "lucide-react";
+import { Search, Gamepad2, Menu, X } from "lucide-react";
 import { GENRES_ALL } from "../../data/genreMeta";
 import { useGameFilters } from "../../contexts/GameFilterContext";
 
@@ -8,11 +8,11 @@ const MENU = [
   { to: "/", label: "Store" },
   { to: "/library", label: "Library" },
   { to: "/marketplace", label: "Marketplace" },
-  { to: "/plans", label: "Plans" },
+  { to: "/arcade", label: "Arcade" },
 ];
 
 export default function Navbar() {
-  const { search, setSearch, setGenre, setSort, setTierFilter } = useGameFilters();
+  const { search, setSearch, setGenre, setSort } = useGameFilters();
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -20,7 +20,6 @@ export default function Navbar() {
   function browse({ genre = "All", sort = "hot" } = {}) {
     setGenre(genre);
     setSort(sort);
-    setTierFilter(0);
     setSearch("");
     navigate("/library");
   }
@@ -47,8 +46,8 @@ export default function Navbar() {
             ))}
           </nav>
           <div className="gh-right">
-            <button className="btn-install" onClick={() => navigate("/plans")}>
-              <Download size={13} /> Get GameVault
+            <button className="btn-install" onClick={() => navigate("/arcade")}>
+              <Gamepad2 size={13} /> Play free
             </button>
             <button className="gh-login" onClick={() => navigate("/login")}>login</button>
             <button className="gh-hamburger" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>

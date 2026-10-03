@@ -84,8 +84,6 @@
 .price .acc { padding: 0 8px; display: flex; align-items: center; color: #c6d4df; white-space: nowrap; }
 .price .disc { background: var(--discount, #4c6b22); color: #beee11; font-size: 15px; font-weight: 700; padding: 0 7px; display: flex; align-items: center; }
 .price.free .acc { color: #a4d007; }
-.price.pro .acc { color: #67c1f5; }
-.price.ultimate .acc { color: #c7a1ff; }
 .price.lg { min-height: 36px; font-size: 14px; }
 
 /* ─── Capsule grid cards ─────────────────── */
@@ -200,3 +198,25 @@
   .store-search { width: 160px; }
   .store-nav-tabs a:nth-child(n+3), .store-nav-tabs .tab-menu { display: none; }
 }
+
+/* ─── Arcade player ───────────────────────── */
+.player { background: #000; max-width: 880px; margin: 0 auto; box-shadow: 0 0 12px #000; }
+.player:fullscreen { max-width: none; display: flex; flex-direction: column; justify-content: center; background: #000; }
+.player-bar { display: flex; align-items: center; gap: 18px; padding: 6px 12px; background: #171a21; font-size: 13px; color: #8f98a0; }
+.player-bar b { color: #fff; font-weight: 700; margin-left: 4px; }
+.player-bar .spacer { flex: 1; }
+.player-bar button { display: flex; align-items: center; justify-content: center; width: 28px; height: 26px; background: rgba(103,193,245,.2); color: #67c1f5; border: 0; border-radius: 2px; cursor: pointer; }
+.player-bar button:hover:not(:disabled) { background: #67c1f5; color: #fff; }
+.player-bar button:disabled { opacity: .4; cursor: default; }
+.player-stage { position: relative; line-height: 0; }
+.player-stage canvas { width: 100%; height: auto; aspect-ratio: 16/10; display: block; touch-action: none; cursor: crosshair; background: #0e141b; }
+.player:fullscreen .player-stage canvas { max-height: calc(100vh - 40px); width: auto; margin: 0 auto; }
+.player-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(8,12,18,.78); line-height: 1.4; text-align: center; padding: 16px; }
+.player-overlay h3 { font-size: 28px; font-weight: 400; color: #fff; letter-spacing: 1px; }
+.player-overlay p { color: #c6d4df; font-size: 14px; }
+.player-overlay small { color: #8f98a0; font-size: 12px; max-width: 420px; margin-top: 4px; }
+.demo-note { background: rgba(103,193,245,.12); border-left: 3px solid #67c1f5; padding: 8px 12px; margin: 0 auto 12px; max-width: 880px; font-size: 13px; color: #c6d4df; }
+.orig-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.orig-art { display: flex; align-items: center; justify-content: center; text-align: center; font-size: 20px; font-weight: 700; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.5); padding: 8px; }
+.cover-svg { width: 100%; height: 100%; display: block; }
+.cap-img:has(.cover-svg) { background: none; }

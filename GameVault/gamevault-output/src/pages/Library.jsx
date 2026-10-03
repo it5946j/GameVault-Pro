@@ -1,6 +1,6 @@
-import { useMemo, useCallback } from "react";
+import { useCallback } from "react";
 import { Link } from "react-router-dom";
-import { GENRES_ALL, TIERS } from "../data/genreMeta";
+import { GENRES_ALL } from "../data/genreMeta";
 import { useGameFilters } from "../contexts/GameFilterContext";
 import { useGameList } from "../hooks/useGameList";
 import { useDebounce } from "../hooks/useDebounce";
@@ -18,7 +18,7 @@ const SORT_TO_ORDERING = {
 };
 
 export default function Library() {
-  const { search, genre, setGenre, tierFilter, setTierFilter, sort, setSort } = useGameFilters();
+  const { search, genre, setGenre, sort, setSort } = useGameFilters();
   const debouncedSearch = useDebounce(search, 400);
   const genreSlug = genre !== "All" ? genre.toLowerCase().replace("_", "-") : undefined;
 
@@ -34,14 +34,7 @@ export default function Library() {
     [sort, debouncedSearch, genreSlug]
   );
 
-  const { games, loading, error, hasMore, loadMore } = useGameList(fetcher, [debouncedSearch, genre, sort], 24);
-
-  // Tier is a GameVault-only concept (see mapRawgGame.js), so it's filtered
-  // client-side over whatever page of RAWG results we currently have.
-  const visibleGames = useMemo(
-    () => (tierFilter === 0 ? games : games.filter((g) => g.tier === tierFilter - 1)),
-    [games, tierFilter]
-  );
+  const { games, loading, error, hasMore, loadMore, total } = useGameList(fetcher, [debouncedSearch, genre, sort], 24);
 
   const heading = debouncedSearch.trim()
     ? `Search results for "${debouncedSearch.trim()}"`
@@ -54,7 +47,7 @@ export default function Library() {
       <div className="search-layout">
         <div style={{ minWidth: 0 }}>
           <div className="sort-bar">
-            <span>{heading}{!loading && ` — ${visibleGames.length} shown`}</span>
+            <span>{heading}{!loading && total > 0 && ` — ${total.toLocaleString()} free games`}</span>
             <label>
               Sort by{" "}
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
@@ -70,11 +63,11 @@ export default function Library() {
 
           {loading && games.length === 0 ? (
             <RowSkeleton count={14} />
-          ) : visibleGames.length === 0 && !error ? (
+          ) : games.length === 0 && !error ? (
             <p style={{ padding: "60px 0", textAlign: "center", color: "#8f98a0" }}>No results match your search.</p>
           ) : (
             <>
-              {visibleGames.map((g) => {
+              {games.map((g) => {
                 const review = reviewLabel(g.rating);
                 return (
                   <Link key={g.id} to={`/game/${g.id}`} className="result">
@@ -87,7 +80,7 @@ export default function Library() {
                     <div className="right">
                       <div className="rel">{steamDate(g.released)}</div>
                       <div className="rev" style={{ color: review.color }}>{review.text}</div>
-                      <PriceBox tier={g.tier} />
+                      <PriceBox />
                     </div>
                   </Link>
                 );
@@ -102,14 +95,6 @@ export default function Library() {
         </div>
 
         <aside>
-          <div className="filter-box">
-            <h4>Narrow by plan</h4>
-            <div className="opts">
-              {TIERS.map((t, i) => (
-                <button key={t} className={tierFilter === i ? "on" : ""} onClick={() => setTierFilter(i)}>{t}</button>
-              ))}
-            </div>
-          </div>
           <div className="filter-box">
             <h4>Narrow by genre</h4>
             <div className="opts">

@@ -43,7 +43,7 @@ export default function FeaturedCapsule({ games }) {
           <div className="feat-meta" style={{ color: review.color }}>{review.text}</div>
           <div className="feat-tags"><Tags game={g} /></div>
           <div className="feat-footer">
-            <PriceBox tier={g.tier} large />
+            <PriceBox large />
           </div>
         </div>
       </div>

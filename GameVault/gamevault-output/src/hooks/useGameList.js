@@ -14,6 +14,7 @@ export function useGameList(fetcher, deps = [], pageSize = 24) {
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const requestId = useRef(0);
@@ -29,6 +30,7 @@ export function useGameList(fetcher, deps = [], pageSize = 24) {
         const mapped = mapRawgList(res);
         setGames((prev) => (replace ? mapped : [...prev, ...mapped]));
         setHasMore(Boolean(res?.next));
+        setTotal(res?.count || 0);
       } catch (e) {
         if (myRequest !== requestId.current) return;
         setError(e?.message || "Failed to load games");
@@ -53,7 +55,7 @@ export function useGameList(fetcher, deps = [], pageSize = 24) {
     load(next, false);
   }, [page, loading, hasMore, load]);
 
-  return { games, loading, error, hasMore, loadMore, page };
+  return { games, loading, error, hasMore, loadMore, page, total };
 }
 
 export default useGameList;

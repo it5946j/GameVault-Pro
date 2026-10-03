@@ -3,18 +3,13 @@
 // ─────────────────────────────────────────────
 // The original GameVault.jsx components (GameCard, FeaturedCard, GameModal,
 // LibrarySection filters) were all written against a specific shape:
-//   { id, title, genre, desc, tier, rating, players, tags, isNew, isHot, isFeatured }
+//   { id, title, genre, desc, rating, players, tags, isNew, isHot, isFeatured }
 //
 // Rather than rewrite every component to know about RAWG's response shape,
 // we map RAWG games onto that exact same shape here, once. This keeps the
 // UI layer data-source-agnostic — swapping RAWG for another provider later
 // only means changing this file and src/api/rawg.js.
 //
-// "tier" (Basic/Pro/Ultimate) and subscription gating are a GameVault-only
-// business concept that RAWG has no concept of, so we derive a deterministic
-// pseudo-tier from each game's id so the existing paywall UI keeps working
-// in Phase 1. This will be replaced by real backend entitlement data once
-// the marketplace/subscription system (Phase 2+) is live.
 // ─────────────────────────────────────────────
 
 const GENRE_SLUG_TO_LABEL = {
@@ -43,12 +38,6 @@ function primaryGenreLabel(rawgGenres = []) {
   return GENRE_SLUG_TO_LABEL[slug] || rawgGenres[0].name || "Action";
 }
 
-function deterministicTier(id) {
-  // Stable 0/1/2 split so the same game always renders the same tier
-  // across renders/pages without needing extra state.
-  return id % 3;
-}
-
 export function mapRawgGame(g) {
   const rating = g.rating && g.rating > 0 ? g.rating : (g.metacritic ? g.metacritic / 20 : 4.0);
   const players = g.added || g.ratings_count || 0;
@@ -66,7 +55,6 @@ export function mapRawgGame(g) {
           .map((p) => p.platform?.name)
           .filter(Boolean)
           .join(", ") || "multiple platforms"}.`,
-    tier: deterministicTier(g.id),
     rating: Math.min(5, Math.round(rating * 10) / 10),
     players,
     background_image: g.background_image,

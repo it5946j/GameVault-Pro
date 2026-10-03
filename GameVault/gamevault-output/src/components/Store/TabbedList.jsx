@@ -45,7 +45,7 @@ export default function TabbedList() {
                   <div className="t">{g.title}</div>
                   <div className="sub">{g.genres.slice(0, 3).join(", ")}</div>
                 </div>
-                <PriceBox tier={g.tier} />
+                <PriceBox />
               </Link>
             ))
           )}

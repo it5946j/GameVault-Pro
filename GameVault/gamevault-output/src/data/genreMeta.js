@@ -19,6 +19,5 @@ export const GENRE_META = {
 };
 
 export const GENRES_ALL = ["All", ...Object.keys(GENRE_META)];
-export const TIERS = ["All Tiers", "Basic (Free)", "Pro", "Ultimate"];
 
 export default GENRE_META;

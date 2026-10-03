@@ -12,7 +12,7 @@ export default function CapsuleGrid({ games }) {
             <div className="cap-title">{g.title}</div>
             <div className="cap-foot">
               <span className="cap-note" style={{ color: reviewLabel(g.rating).color }}>{reviewLabel(g.rating).text}</span>
-              <PriceBox tier={g.tier} />
+              <PriceBox />
             </div>
           </div>
         </Link>

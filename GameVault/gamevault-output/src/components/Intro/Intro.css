@@ -1,0 +1,50 @@
+/* Timeline (seconds):
+   0.0  black
+   0.3  light beam expands, stars fade in
+   1.0  controller mark pops in
+   1.5  GAMEVAULT letters rise one by one
+   2.6  light sweep across the title
+   3.0  tagline
+   3.7  title + tagline fade out, founder credit fades in
+   5.3  whole screen fades out (JS removes it at 5.8) */
+.intro { position: fixed; inset: 0; z-index: 10000; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; transition: opacity .5s ease; font-family: var(--font-body); }
+.intro.leave { opacity: 0; pointer-events: none; }
+
+.intro-stars i { position: absolute; background: #fff; border-radius: 50%; opacity: 0; animation: i-twinkle 2.4s ease-in-out infinite, i-fadein 1s .3s forwards; }
+@keyframes i-twinkle { 0%, 100% { filter: brightness(.6); } 50% { filter: brightness(1.8); } }
+@keyframes i-fadein { to { opacity: .85; } }
+
+.intro-beam { position: absolute; left: 50%; top: 50%; height: 2px; width: 0; transform: translate(-50%, -50%); background: linear-gradient(90deg, transparent, #66c0f4, #fff, #66c0f4, transparent); box-shadow: 0 0 30px 6px rgba(102,192,244,.7); opacity: 0; animation: i-beam 1.6s .3s ease-out forwards, i-beam-out .8s 3.7s ease-in forwards; }
+@keyframes i-beam { 0% { width: 0; opacity: 0; } 20% { opacity: 1; } 70% { width: 90vw; opacity: .9; } 100% { width: 90vw; opacity: .12; } }
+@keyframes i-beam-out { to { opacity: 0; } }
+
+.intro-center { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; animation: i-out .7s 3.7s ease-in forwards; }
+@keyframes i-out { to { opacity: 0; transform: scale(1.06); filter: blur(4px); } }
+
+.intro-mark { width: 104px; height: 104px; border-radius: 26px; display: flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(135deg, #66c0f4, #1a44c2); box-shadow: 0 0 60px rgba(102,192,244,.6); opacity: 0; transform: scale(.3) rotate(-18deg); animation: i-pop .8s 1s cubic-bezier(.2,1.5,.4,1) forwards; }
+@keyframes i-pop { to { opacity: 1; transform: scale(1) rotate(0); } }
+
+.intro-title { display: flex; font-size: clamp(34px, 9vw, 92px); font-weight: 800; letter-spacing: .12em; color: #fff; line-height: 1; margin: 6px 0 0; text-shadow: 0 0 28px rgba(102,192,244,.55); }
+.intro-title span { display: inline-block; opacity: 0; transform: translateY(40px) scale(.9); animation: i-letter .55s cubic-bezier(.2,.9,.3,1) forwards; }
+@keyframes i-letter { to { opacity: 1; transform: none; } }
+
+.intro-sweep { position: absolute; left: -10%; top: 142px; width: 22%; height: clamp(40px, 9vw, 92px); transform: skewX(-20deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent); mix-blend-mode: overlay; opacity: 0; animation: i-sweep 1s 2.6s ease-in-out forwards; }
+@keyframes i-sweep { 0% { left: -10%; opacity: 0; } 20% { opacity: 1; } 100% { left: 95%; opacity: 0; } }
+
+.intro-tag { color: #8f98a0; letter-spacing: .35em; text-transform: uppercase; font-size: clamp(10px, 1.6vw, 14px); opacity: 0; animation: i-fade .7s 3s ease-out forwards; }
+@keyframes i-fade { to { opacity: 1; } }
+
+.intro-credit { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; opacity: 0; text-align: center; animation: i-fade .9s 4s ease-out forwards; pointer-events: none; }
+.intro-presents { color: #66c0f4; letter-spacing: .5em; text-transform: uppercase; font-size: clamp(10px, 1.6vw, 13px); }
+.intro-founder-label { color: #8f98a0; font-size: clamp(12px, 1.8vw, 15px); letter-spacing: .2em; text-transform: uppercase; margin-top: 18px; }
+.intro-founder { color: #fff; font-size: clamp(28px, 6.5vw, 64px); font-weight: 700; letter-spacing: .08em; text-shadow: 0 0 30px rgba(102,192,244,.7); animation: i-glow 1.6s 4s ease-in-out infinite alternate; }
+@keyframes i-glow { from { text-shadow: 0 0 14px rgba(102,192,244,.4); } to { text-shadow: 0 0 36px rgba(102,192,244,.95); } }
+
+.intro-skip { position: absolute; right: 24px; bottom: 28px; background: none; border: 1px solid rgba(255,255,255,.25); color: #c6d4df; padding: 6px 14px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 2px; opacity: 0; animation: i-fade .5s .8s forwards; }
+.intro-skip:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+.intro-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.08); }
+.intro-progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #1a44c2, #66c0f4); animation: i-bar 5.3s linear forwards; }
+@keyframes i-bar { to { width: 100%; } }
+
+@media (max-width: 600px) { .intro-sweep { top: 118px; } }

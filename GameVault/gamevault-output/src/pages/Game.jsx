@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Play, Lock } from "lucide-react";
+import { Play } from "lucide-react";
 import { fetchGameDetail, fetchGameScreenshots } from "../api/rawg";
 import { mapRawgGame } from "../utils/mapRawgGame";
 import { reviewLabel, steamDate, fmt } from "../utils/format";
 import PriceBox from "../components/Common/PriceBox";
 import Tags from "../components/Common/Tags";
 import { BlockSkeleton } from "../components/Common/Skeletons";
-
-const TIER_NAMES = ["Basic", "Pro", "Ultimate"];
 
 export default function Game() {
   const { id } = useParams();
@@ -59,7 +57,6 @@ export default function Game() {
 
   const review = reviewLabel(game.rating);
   const media = screenshots.length ? screenshots.map((s) => s.image) : game.background_image ? [game.background_image] : [];
-  const locked = game.tier > 0;
   const description = game.descFull || game.desc;
 
   return (
@@ -98,14 +95,10 @@ export default function Game() {
       </div>
 
       <div className="buy-box">
-        <h2>{locked ? `Get ${game.title} with ${TIER_NAMES[game.tier]}` : `Play ${game.title}`}</h2>
+        <h2>Play {game.title}</h2>
         <div className="buy-row">
-          <PriceBox tier={game.tier} large />
-          {locked ? (
-            <button className="btn-green" onClick={() => navigate("/plans")}><Lock size={14} /> Upgrade to {TIER_NAMES[game.tier]}</button>
-          ) : (
-            <button className="btn-green"><Play size={14} fill="#fff" /> Play Game</button>
-          )}
+          <PriceBox large />
+          <button className="btn-green" onClick={() => navigate(`/game/${game.id}/play`)}><Play size={14} fill="#fff" /> Play now</button>
         </div>
         <div className="buy-spacer" />
       </div>

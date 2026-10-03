@@ -4,6 +4,18 @@ A multi-page gaming platform: live game data from the RAWG API, GSAP/Framer
 Motion/Lenis animation, and a proper component architecture — built as a
 phased restructure of the original single-file `GameVault.jsx` prototype.
 
+Founded by **M. Ayan Waris**.
+
+## What it is now
+
+A Steam-style store where **every game is free** (no plans, no purchases). The
+catalogue is RAWG's full database (shown with its real total count), and every
+game page has a **Play now** button. GameVault does not host those games' real
+files, so Play launches a free built-in browser game matched to the title's
+genre (Star Defender, Neon Snake, Brick Vault, Vault Pong, Skyhop — all in
+`src/games/`, also listed under **Arcade**). The app opens with a ~5.8s
+cinematic intro (`src/components/Intro/`; click, Enter, Space or Esc skips it).
+
 ## ⚠️ Status: Phase 1 (Premium Foundation)
 
 This is **not** the full 40k–70k line platform described in the original

@@ -24,11 +24,6 @@ export function reviewLabel(rating = 0) {
   return { text: "No user reviews", color: "#8f98a0" };
 }
 
-/** Access label shown where Steam shows a price (GameVault is subscription-based). */
-export function accessLabel(tier) {
-  return ["Free", "Pro", "Ultimate"][tier] || "Free";
-}
-
 /** "2024-03-09" -> "9 Mar, 2024" (Steam's release-date format) */
 export function steamDate(iso) {
   if (!iso) return "TBA";
