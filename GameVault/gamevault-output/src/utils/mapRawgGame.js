@@ -68,6 +68,7 @@ export function mapRawgGame(g) {
     developers: (g.developers || []).map((d) => d.name),
     publishers: (g.publishers || []).map((d) => d.name),
     esrb: g.esrb_rating?.name || null,
+    website: g.website || null,
     isNew: !!releasedRecently,
     isHot: players > 8000,
     isFeatured: !!g.metacritic && g.metacritic >= 85,

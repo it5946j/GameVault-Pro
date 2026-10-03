@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Play } from "lucide-react";
+import { Play, ExternalLink } from "lucide-react";
 import { fetchGameDetail, fetchGameScreenshots } from "../api/rawg";
+import { findClassicByTitle, embedUrl } from "../api/archive";
 import { mapRawgGame } from "../utils/mapRawgGame";
 import { reviewLabel, steamDate, fmt } from "../utils/format";
 import PriceBox from "../components/Common/PriceBox";
@@ -37,6 +38,16 @@ export default function Game() {
       active = false;
     };
   }, [id]);
+
+  // Opens the game in a separate tab: the Archive's full-page player when the
+  // original is available there, else the official site, else our built-in game.
+  // The tab is opened synchronously so popup blockers allow it.
+  async function playInNewTab() {
+    const tab = window.open("about:blank", "_blank");
+    const match = await findClassicByTitle(game.title);
+    const url = match ? embedUrl(match.id) : game.website || `${window.location.origin}/game/${game.id}/play`;
+    if (tab) { tab.opener = null; tab.location.href = url; } else window.open(url, "_blank", "noopener");
+  }
 
   if (loading) {
     return (
@@ -99,6 +110,7 @@ export default function Game() {
         <div className="buy-row">
           <PriceBox large />
           <button className="btn-green" onClick={() => navigate(`/game/${game.id}/play`)}><Play size={14} fill="#fff" /> Play now</button>
+          <button className="btn-blue" onClick={playInNewTab}><ExternalLink size={14} /> Open in new tab</button>
         </div>
         <div className="buy-spacer" />
       </div>

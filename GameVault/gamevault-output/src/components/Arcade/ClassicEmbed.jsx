@@ -16,6 +16,7 @@ export default function ClassicEmbed({ id, title }) {
       <div className="player-bar">
         <span>Playing <b>{title}</b></span>
         <span className="spacer" />
+        <a className="player-link" href={embedUrl(id)} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} /> Open in new tab</a>
         <a className="player-link" href={detailsUrl(id)} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} /> Archive page</a>
         <button onClick={fullscreen} aria-label="Fullscreen"><Maximize2 size={14} /></button>
       </div>
